@@ -9,6 +9,7 @@
 import { Search, dateFormat, Swiper } from 'vux'
 const imgList = [
   '/static/p1.png',
+  '/static/p1.png',
   '//bpic.588ku.com//back_water_img/19/04/18/6f44ceefa65f142e906f016f21453795.jpg!/fw/750/quality/99/unsharp/true/compress/true',
   '//bpic.588ku.com//back_origin_min_pic/19/04/16/1cfebec607678a6b5857610414c7c971.jpg!/fw/750/quality/99/unsharp/true/compress/true'
 ]

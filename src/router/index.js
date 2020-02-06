@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import lowercase from '@/components/lowercase/lowercase'
+import shop from '@/components/shopping/shop'
 import takeout from '@/components/takeout/takeout'
 import shopping from '@/components/shopping/shopping'
 import order from '@/components/order/order'
@@ -16,8 +16,8 @@ export default new Router({
       component: takeout
     },
     {
-      path: '/lowercase',
-      component: lowercase
+      path: '/shop',
+      component: shop
     },
     {
       path: '/takeout',

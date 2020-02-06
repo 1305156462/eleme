@@ -2,7 +2,7 @@
     <div class="me">
         <div class="p1">
             <p style="margin-left: 10px;margin-top: 10px">我的</p>
-            <router-link tag="div" class="msg" to="/1">
+            <router-link tag="div" class="msg" to="/shop">
                 <img src="../../assets/me/通知.png" height="20" width="20">
             </router-link>
             <router-link tag="div" class="set" to="/1">
@@ -45,47 +45,33 @@
                 <img class="picture" src="../../assets/me/红包.png">
                 <span style="margin-left:20px;margin-top:10px">签 到 领 红 包</span>
             </div>
-            <!-- <div class="border-bottom">
-                <img class="picture" src="../../assets/me/信用卡.png">
-                <span style="margin-left:20px;margin-top:10px">饿 了 么 联 名 卡</span>
+            <div class="border-bottom">
+                <img class="picture" src="../../assets/me/金币.png">
+                <span style="margin-left:20px;margin-top:10px">我 要 借 款</span>
             </div>
             <div class="border-bottom">
-                <img class="picture" src="../../assets/me/信用卡.png">
-                <span style="margin-left:20px;margin-top:10px">饿 了 么 联 名 卡</span>
+                <img class="picture" src="../../assets/me/公益.png">
+                <span style="margin-left:20px;margin-top:10px">三 小 时 公 益</span>
             </div>
             <div class="border-bottom">
-                <img class="picture" src="../../assets/me/信用卡.png">
-                <span style="margin-left:20px;margin-top:10px">饿 了 么 联 名 卡</span>
+                <img class="picture" src="../../assets/me/代理.png">
+                <span style="margin-left:20px;margin-top:10px">城 市 代 理 申 请</span>
+            </div>
+            <div class="border-bottom thick">
+                <img class="picture" src="../../assets/me/餐具.png">
+                <span style="margin-left:20px;margin-top:10px">企 业 订 餐</span>
             </div>
             <div class="border-bottom">
-                <img class="picture" src="../../assets/me/信用卡.png">
-                <span style="margin-left:20px;margin-top:10px">饿 了 么 联 名 卡</span>
+                <img class="picture" src="../../assets/me/客服.png">
+                <span style="margin-left:20px;margin-top:10px">我 的 客 服</span>
             </div>
             <div class="border-bottom">
-                <img class="picture" src="../../assets/me/信用卡.png">
-                <span style="margin-left:20px;margin-top:10px">饿 了 么 联 名 卡</span>
+                <img class="picture" src="../../assets/me/加盟.png">
+                <span style="margin-left:20px;margin-top:10px">加 盟 合 作</span>
             </div>
-            <div class="border-bottom">
-                <img class="picture" src="../../assets/me/信用卡.png">
-                <span style="margin-left:20px;margin-top:10px">饿 了 么 联 名 卡</span>
-            </div>
-            <div class="border-bottom">
-                <img class="picture" src="../../assets/me/信用卡.png">
-                <span style="margin-left:20px;margin-top:10px">饿 了 么 联 名 卡</span>
-            </div>
-            <div class="border-bottom">
-                <img class="picture" src="../../assets/me/信用卡.png">
-                <span style="margin-left:20px;margin-top:10px">饿 了 么 联 名 卡</span>
-            </div>
-            <div class="border-bottom">
-                <img class="picture" src="../../assets/me/信用卡.png">
-                <span style="margin-left:20px;margin-top:10px">饿 了 么 联 名 卡</span>
-            </div>
-            <div class="border-bottom">
-                <img class="picture" src="../../assets/me/信用卡.png">
-                <span style="margin-left:20px;margin-top:10px">饿 了 么 联 名 卡</span>
-            </div> -->
+            <div class="empty"></div>
         </div>
+
     </div>
 </template>
 
@@ -102,7 +88,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .p1{
   top: 0px;
   left: 0;
@@ -110,20 +96,24 @@ export default {
   background:  hsl(240, 96%, 69%);
   height: 130px;
   color: #fff;
-  position: fixed;
-  width: 100%;
-  z-index: 1;
+  position: absolute
 }
 .p2{
-    position: fixed;
+    position: absolute;
+    left:0;
+    right: 0;
     top: 130px;
-    left: 0;
 }
 .p3{
-    position: fixed;
+    position: absolute;
     top: 190px;
     left: 0;
-    width: 100%;
+    right:0;
+    margin-bottom: 50px;
+}
+.empty{
+    background: #ebebeb;
+    height: 50px;
 }
 .head img{
     position: absolute;
@@ -144,23 +134,25 @@ export default {
     top:10px;
     right: 10px;
 }
+.div{
+    position:absolute
+}
 .wallet{
-    width:33%;
+    position: absolute;
 }
 .redwallet{
-    width:33%;
-    left:33%
+    position:absolute;
+    left:33%;
 }
 .gold{
-    position: fixed;
+    position: absolute;
     height: 60px;
     width: 33%;
     left: 67%;
-    display: flex;
 }
 .border{
-    position: fixed;
     height: 60px;
+    width: 33%;
     border-right: 1px solid #ebebeb;
 }
 .collect{
@@ -178,5 +170,8 @@ export default {
     display: flex;
     height: 40px;
     border-bottom: 1px solid #ebebeb;
+}
+.thick{
+    border-bottom: 10px solid #ebebeb;
 }
 </style>

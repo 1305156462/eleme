@@ -5,6 +5,11 @@ import takeout from '@/components/takeout/takeout'
 import shopping from '@/components/shopping/shopping'
 import order from '@/components/order/order'
 import me from '@/components/me/me'
+import Login from '@/components/login.vue'
+import set from '@/components/me/set'
+import personal from '@/components/me/personal'
+import changename from '@/components/me/changename'
+import carts from '@/components/shopping/carts'
 
 Vue.use(Router)
 
@@ -12,8 +17,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'takeout',
-      component: takeout
+      redirect: '/takeout'
+    },
+    {
+      path: '/login',
+      component: Login
     },
     {
       path: '/shop',
@@ -34,6 +42,22 @@ export default new Router({
     {
       path: '/me',
       component: me
+    },
+    {
+      path: '/set',
+      component: set
+    },
+    {
+      path: '/personal',
+      component: personal
+    },
+    {
+      path: '/changename',
+      component: changename
+    },
+    {
+      path: '/carts',
+      component: carts
     }
   ]
 })

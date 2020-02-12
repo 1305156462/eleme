@@ -2,15 +2,15 @@
     <div class="me">
         <div class="p1">
             <p style="margin-left: 10px;margin-top: 10px">我的</p>
-            <router-link tag="div" class="msg" to="/shop">
+            <router-link tag="div" class="msg" to="/order">
                 <img src="../../assets/me/通知.png" height="20" width="20">
             </router-link>
-            <router-link tag="div" class="set" to="/1">
+            <router-link tag="div" class="set" to="/set">
                 <img src="../../assets/me/设置.png" height="20px">
             </router-link>
-            <router-link tag="div" class="head" to="/1">
+            <router-link tag="div" class="head" to="/personal">
                 <img src="../../assets/tab/饿了么1.png" height="60px">
-                <p class="personal">name:liu</p><p class="personal">phone:180****</p>
+                <p class="personal">name:{{this.$store.state.name}}</p><p class="personal">phone:180****</p>
             </router-link>
         </div>
         <div class="p2">
@@ -84,7 +84,6 @@ export default {
       number2: '0'
     }
   }
-
 }
 </script>
 

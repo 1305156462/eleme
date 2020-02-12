@@ -1,7 +1,7 @@
 <template >
     <div class="order">
       <div class="order_all">
-        <scroller class="scroller" :on-refresh="refresh" :on-infinite="infinite" :noDataText="'--我也是有底线的--'" ref="my_scroller" >
+        <scroller class="scroller" :on-refresh="refresh" :on-infinite="infinite" :noDataText="'--没有历史订单了--'" ref="my_scroller" >
           <ul>
             <li class="scrollermsg" v-for="(order,index) in orderData" :key="index">
               <div class="ordermsg">
@@ -23,27 +23,27 @@ export default {
   data () {
     return {
       orderData: [],
-      overFlag: true,
       bottom: -1
     }
   },
   mounted () {
     this.$http.get('/api/orderData')
       .then((data) => {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 6; i++) {
           this.orderData.push(data.data.data[i])
         }
-        this.bottom = 4
+        this.bottom = 5
       })
   },
   methods: {
     refresh (done) {
       console.log('refresh')
+      // this.$refs.my_scroller.finishPullToRefresh()
     },
     infinite (done) {
       console.log('infinite')
       console.log('bottom:' + this.bottom)
-      if (this.bottom >= 14) {
+      if (this.bottom >= 20) {
         setTimeout(() => {
           done(true)
         }, 500)
@@ -63,12 +63,12 @@ export default {
           let start = this.bottom + 1
           // console.log(start)
           // console.log(this.bottom)
-          for (let i = start; i < start + 5; i++) {
+          for (let i = start; i < start + 6; i++) {
             console.log(i)
             this.orderData.push(res.data.data[i])
-            // this.orderList[i] = data.data.data[i]
+            // this.orderData[i] = data.data.data[i]
           }
-          this.bottom = this.bottom + 5
+          this.bottom = this.bottom + 6
         }, (err) => {
           console.log(err)
         })

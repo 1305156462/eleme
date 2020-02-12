@@ -36,10 +36,6 @@
 export default {
   data () {
     return {
-      item: {
-        1: 'a',
-        2: 'b'
-      }
     }
   }
 }

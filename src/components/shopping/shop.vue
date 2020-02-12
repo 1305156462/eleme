@@ -25,7 +25,7 @@
 
       <div class="food">
         <ul class="food_kind" ref="foodkind">
-          <li v-for="item in foodData1" :key="item.id">
+          <li v-for="item in foodData" :key="item.id">
             <p>{{item.index}}</p>
             <ul>
               <li v-for="food in item.food" :key="food.id">
@@ -33,7 +33,7 @@
                   <img class="foodphoto" :src="food.imgurl"/>
                   <span class="foodname">{{food.name}}</span>
                   <span class="foodprice">￥{{food.price}}</span>
-                  <img class="plus" src="../../assets/shop/添加.png" @click="add(food.name,food.price)">
+                  <carts :food='food' @addfood="countadd" @cutfood="countcut"></carts>
                 </div>
               </li>
             </ul>
@@ -48,13 +48,13 @@
         <span style="display:flex;color:white;margin-top:10px;margin-left:10px;font-size:120%">已选择{{i}}件,共计{{count}}元</span>
       </div>
 
-      <div v-show="carts" class="carts">
+      <div v-show="carts" class="shopcart">
       <div style="position:fixed;z-index:11;background:#edf88c;top:60%;width:100%;height:20px;"></div>
         <scroller>
           <div class="checked">已选商品</div>
-            <div class="checklist" v-for="index in i" :key="index">
-              <span style="position:absolute;margin-top:15px;">{{addname[index-1]}}</span>
-              <img src="../../assets/shop/减.png" @click="cut()" style="position:absolute;width:20px;right:10px;margin-top:15px;">
+            <div class="checklist" v-for="(food,index) in cartlist" :key="index">
+              <span style="position:absolute;margin-top:15px;">{{food.name}}</span>
+              <span style="position:absolute;margin-top:15px;right:10px;">{{food.count}}</span>
             </div>
         </scroller>
       </div>
@@ -63,52 +63,20 @@
 </template>
 
 <script>
+import carts from '@/components/shopping/carts'
 export default {
   data () {
     return {
       name: '',
-      j: 0,
-      addname: [],
+      cartlist: [],
       carts: false,
       i: 0,
       count: 0,
       item: 1,
-      foodData1: [
-        {
-          'index': '优惠',
-          'food': [
-            {'name': '精选欢聚时光桶T', 'imgurl': '/static/food/优惠1.jpg', 'price': 1.00},
-            {'name': '六味小吃桶T', 'imgurl': '/static/food/优惠2.jpg', 'price': 2.00},
-            {'name': '20块香辣鸡翅T', 'imgurl': '/static/food/优惠3.jpg', 'price': 3.00}
-          ]
-        },
-        {
-          'index': '鸡翅',
-          'food': [
-            {'name': '10块奥尔良烤翅T', 'imgurl': '/static/food/鸡翅1.png', 'price': 4.00},
-            {'name': '10块香辣鸡翅T', 'imgurl': '/static/food/鸡翅2.png', 'price': 5.00},
-            {'name': '2块新奥尔良烤翅T', 'imgurl': '/static/food/鸡翅3.png', 'price': 6.00}
-          ]
-        },
-        {
-          'index': '小食',
-          'food': [
-            {'name': '劲爆鸡米花（大）', 'imgurl': '/static/food/劲爆鸡米花.png', 'price': 7.00},
-            {'name': '薯条（中）', 'imgurl': '/static/food/薯条.png', 'price': 8.00},
-            {'name': '黄金鸡块5块装', 'imgurl': '/static/food/黄金鸡块.png', 'price': 9.00}
-          ]
-        },
-        {
-          'index': '饮品',
-          'food': [
-            {'name': '九珍果汁饮料', 'imgurl': '/static/food/九珍果汁.png', 'price': 9.99},
-            {'name': '百事可乐（中）', 'imgurl': '/static/food/百事可乐.png', 'price': 9.99},
-            {'name': '拿铁（中）', 'imgurl': '/static/food/拿铁.png', 'price': 9.99}
-          ]
-        }
-      ]
+      foodData: []
     }
   },
+  components: {carts},
   methods: {
     back () {
       this.$router.back() // 返回上一级
@@ -132,32 +100,69 @@ export default {
     },
     setData () {
       this.name = this.$route.query.shop.name
+      this.$http.get('/api/shopFoodList')
+        .then((data) => {
+          console.log(data.data)
+          let arr = data.data.data
+          for (var i = 0; i < arr.length; i++) {
+            if (this.name === arr[i].shopname) {
+              console.log(i)
+              this.foodData = data.data.data[i].foodlist
+              break
+            } else {
+              this.foodData = []
+            }
+          }
+        })
     },
-    add (data1, data2) {
+    countadd: function (data) {
       this.i++
-      this.count = this.count + data2
-      this.addname[this.j] = data1
-      this.j++
+      this.count += data.price
+      // console.log(data.count)
+      var index
+      for (index = 0; index < this.cartlist.length; index++) {
+        if (data.name === this.cartlist[index].name) {
+          this.cartlist[index].count = data.count
+          return
+        }
+      }
+      // console.log('index:', index)
+      // console.log(this.cartlist.length)
+      if (index === this.cartlist.length) {
+        this.cartlist.push({
+          name: data.name,
+          count: data.count})
+      }
+      // console.log(this.cartlist)
     },
-    cut () {
+    countcut: function (data) {
       this.i--
+      this.count -= data.price
+      var index
+      for (index = 0; index < this.cartlist.length; index++) {
+        if (data.name === this.cartlist[index].name) {
+          if (data.count === 0) {
+            this.cartlist.splice(index, 1)
+          } else {
+            this.cartlist[index].count = data.count
+          }
+        }
+      }
     }
   },
   computed: {
     foodIndex: function () {
-      return this.filterIndex(this.foodData1)
+      return this.filterIndex(this.foodData)
     }
+  },
+  created () {
+    console.log('creat')
   },
   beforeRouteEnter (to, from, next) {
     next(vm => vm.setData())
   },
   mounted: function () {
-    this.$http.get('/api/foodData1')
-    // .then((data) => {
-    //   for (let i = 0; i < 100; i++) {
-    //     this.foodData1.push(data.data.data[i])
-    //   }
-    // })
+
   }
 }
 </script>
@@ -229,6 +234,7 @@ export default {
   margin: 10px;
 }
 .foodphoto{
+  position: absolute;
   width: 80px;
   height: 80px;
   margin-left:10px;
@@ -236,19 +242,13 @@ export default {
 }
 .foodname{
   position: absolute;
-  margin-left:20px;
+  margin-left:110px;
   margin-top:10px;
-}
-.plus{
-  position:absolute;
-  width:20px;
-  right:10px;
-  margin-top: 70px;
 }
 .foodprice{
   position: absolute;
   margin-top:70px;
-  margin-left:20px;
+  margin-left:110px;
   color:red;
 }
 .options{
@@ -260,7 +260,7 @@ export default {
   background: white;
   border-bottom: 1px solid #ebebeb
 }
-.carts{
+.shopcart{
   position: fixed;
   background: #f5f5f5;
   z-index:10;
@@ -271,6 +271,8 @@ export default {
 
 }
 .checked{
+  position: relative;
+  height:20px;
   font-size:110%;
   margin-left:10px;
   margin-top:30px;
@@ -290,5 +292,10 @@ export default {
   bottom:0;
   z-index: 11;
   background: #7a7575
+}
+.carts{
+  position:absolute;
+  right:10px;
+  margin-top: 0px;
 }
 </style>

@@ -14,6 +14,7 @@ const express = require('express')
 const app = express()
 var appData = require('../data.json')
 var orderData = appData.orderData
+var shopFoodList = appData.shopFoodList
 var apiRoutes = express.Router()
 app.use('/api', apiRoutes)
 
@@ -55,6 +56,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         res.json({
           errno: 0,
           data: orderData
+        })
+      });
+      app.get('/api/shopFoodList', (req, res) => {
+        res.json({
+          errno: 0,
+          data: shopFoodList
         })
       })
     }

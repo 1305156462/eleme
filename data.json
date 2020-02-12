@@ -24,5 +24,83 @@
     {"name": "九珍果汁饮料", "imgurl": "/static/food/九珍果汁.png", "price": "￥0.00","time":"12:00"},
     {"name": "百事可乐（中）", "imgurl": "/static/food/百事可乐.png", "price": "￥0.00","time":"12:00"},
     {"name": "拿铁（中）", "imgurl": "/static/food/拿铁.png", "price": "￥0.00","time":"12:00"}
+  ],
+
+  "shopFoodList":[
+    {
+      "shopname":"肯 德 基 宅 急 送",
+      "foodlist":[
+      {
+        "index": "优惠",
+        "food": [
+          {"name": "精选欢聚时光桶T", "imgurl": "/static/food/优惠1.jpg", "price": 1.00, "count": 0},
+          {"name": "六味小吃桶T", "imgurl": "/static/food/优惠2.jpg", "price": 2.00, "count": 0},
+          {"name": "20块香辣鸡翅T", "imgurl": "/static/food/优惠3.jpg", "price": 3.00, "count": 0}
+        ]
+      },
+      {
+        "index": "鸡翅",
+        "food": [
+          {"name": "10块奥尔良烤翅T", "imgurl": "/static/food/鸡翅1.png", "price": 4.00, "count": 0},
+          {"name": "10块香辣鸡翅T", "imgurl": "/static/food/鸡翅2.png", "price": 5.00, "count": 0},
+          {"name": "2块新奥尔良烤翅T", "imgurl": "/static/food/鸡翅3.png", "price": 6.00, "count": 0}
+        ]
+      },
+      {
+        "index": "小食",
+        "food": [
+          {"name": "劲爆鸡米花（大）", "imgurl": "/static/food/劲爆鸡米花.png", "price": 7.00, "count": 0},
+          {"name": "薯条（中）", "imgurl": "/static/food/薯条.png", "price": 8.00, "count": 0},
+          {"name": "黄金鸡块5块装", "imgurl": "/static/food/黄金鸡块.png", "price": 9.00, "count": 0}
+        ]
+      },
+      {
+        "index": "饮品",
+        "food": [
+          {"name": "九珍果汁饮料", "imgurl": "/static/food/九珍果汁.png", "price": 10, "count": 0},
+          {"name": "百事可乐（中）", "imgurl": "/static/food/百事可乐.png", "price": 11, "count": 0},
+          {"name": "拿铁（中）", "imgurl": "/static/food/拿铁.png", "price": 12, "count": 0}
+        ]
+      }
+      ]
+    },
+
+    {
+      "shopname":"海 岸 百 货",
+      "foodlist":[
+      {
+        "index": "A",
+        "food": [
+          {"name": "精选欢聚时光桶T", "imgurl": "/static/food/优惠1.jpg", "price": 1.00, "count": 0},
+          {"name": "六味小吃桶T", "imgurl": "/static/food/优惠2.jpg", "price": 2.00, "count": 0},
+          {"name": "20块香辣鸡翅T", "imgurl": "/static/food/优惠3.jpg", "price": 3.00, "count": 0}
+        ]
+      },
+      {
+        "index": "B",
+        "food": [
+          {"name": "10块奥尔良烤翅T", "imgurl": "/static/food/鸡翅1.png", "price": 4.00, "count": 0},
+          {"name": "10块香辣鸡翅T", "imgurl": "/static/food/鸡翅2.png", "price": 5.00, "count": 0},
+          {"name": "2块新奥尔良烤翅T", "imgurl": "/static/food/鸡翅3.png", "price": 6.00, "count": 0}
+        ]
+      },
+      {
+        "index": "C",
+        "food": [
+          {"name": "劲爆鸡米花（大）", "imgurl": "/static/food/劲爆鸡米花.png", "price": 7.00, "count": 0},
+          {"name": "薯条（中）", "imgurl": "/static/food/薯条.png", "price": 8.00, "count": 0},
+          {"name": "黄金鸡块5块装", "imgurl": "/static/food/黄金鸡块.png", "price": 9.00, "count": 0}
+        ]
+      },
+      {
+        "index": "D",
+        "food": [
+          {"name": "九珍果汁饮料", "imgurl": "/static/food/九珍果汁.png", "price": 10, "count": 0},
+          {"name": "百事可乐（中）", "imgurl": "/static/food/百事可乐.png", "price": 11, "count": 0},
+          {"name": "拿铁（中）", "imgurl": "/static/food/拿铁.png", "price": 12, "count": 0}
+        ]
+      }
+      ]
+    }
   ]
 }

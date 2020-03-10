@@ -8,7 +8,7 @@
       </div>
 
       <div class="top2" @click="carts=0"></div>
-      <img @click="carts=0" style="position:fixed;z-index:10;width:30%;top:30px;left:35%" src="../../../static/shop/肯德基.png">
+      <img @click="carts=0" style="position:fixed;z-index:10;width:30%;top:30px;left:35%" :src="shopphoto">
       <span @click="carts=0" style="position:fixed;z-index:100;top:140px;width:100%;text-align:center;font-size:120%">{{name}}</span>
 
       <div class="options">
@@ -25,13 +25,13 @@
 
       <div class="food">
         <ul class="food_kind" ref="foodkind">
-          <li v-for="item in foodData" :key="item.id">
-            <p>{{item.index}}</p>
+          <li v-for="food in foodData" :key="food.id">
+            <p v-show="food.classification">{{food.classification}}</p>
             <ul>
-              <li v-for="food in item.food" :key="food.id">
+              <li>
                 <div class="foodmsg">
                   <img class="foodphoto" :src="food.imgurl"/>
-                  <span class="foodname">{{food.name}}</span>
+                  <span class="foodname">{{food.foodname}}</span>
                   <span class="foodprice">￥{{food.price}}</span>
                   <carts :food='food' @addfood="countadd" @cutfood="countcut"></carts>
                 </div>
@@ -44,8 +44,9 @@
         </ul>
       </div>
 
-      <div class="bottom" @click="carts?carts=false:carts=true">
-        <span style="display:flex;color:white;margin-top:10px;margin-left:10px;font-size:120%">已选择{{i}}件,共计{{count}}元</span>
+      <div class="bottom">
+        <span @click="carts?carts=false:carts=true" style="display:flex;color:white;margin-top:10px;margin-left:10px;font-size:120%">已选择{{i}}件,共计{{cost}}元</span>
+        <div @click="gotospend()" class="spend"><span style="display:flex;color:white;margin-top:10px;margin-left:25%;font-size:120%">去结算</span></div>
       </div>
 
       <div v-show="carts" class="shopcart">
@@ -53,7 +54,7 @@
         <scroller>
           <div class="checked">已选商品</div>
             <div class="checklist" v-for="(food,index) in cartlist" :key="index">
-              <span style="position:absolute;margin-top:15px;">{{food.name}}</span>
+              <span style="position:absolute;margin-top:15px;">{{food.foodname}}</span>
               <span style="position:absolute;margin-top:15px;right:10px;">{{food.count}}</span>
             </div>
         </scroller>
@@ -63,6 +64,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import carts from '@/components/shopping/carts'
 export default {
   data () {
@@ -71,21 +73,24 @@ export default {
       cartlist: [],
       carts: false,
       i: 0,
-      count: 0,
-      item: 1,
-      foodData: []
+      cost: 0.00,
+      foodData: [],
+      shopphoto: ''
     }
   },
   components: {carts},
   methods: {
+    gotospend () {
+      axios.get('/apis/gotospend', {params: {}})
+    },
     back () {
       this.$router.back() // 返回上一级
     },
     filterIndex: function (data) {
       var result = []
       for (var i = 0; i < data.length; i++) {
-        if (data[i].index) {
-          result.push(data[i].index)
+        if (data[i].classification) {
+          result.push(data[i].classification)
         }
       }
       return result
@@ -99,48 +104,54 @@ export default {
       }
     },
     setData () {
-      this.name = this.$route.query.shop.name
-      this.$http.get('/api/shopFoodList')
+      this.name = this.$route.query.shop.shopname
+      this.shopphoto = this.$route.query.shop.shopphoto
+      axios.get('/apis/getfoodlist', {params: {shopname: this.name}})
         .then((data) => {
-          console.log(data.data)
-          let arr = data.data.data
-          for (var i = 0; i < arr.length; i++) {
-            if (this.name === arr[i].shopname) {
-              console.log(i)
-              this.foodData = data.data.data[i].foodlist
-              break
-            } else {
-              this.foodData = []
-            }
+          // console.log(data.data)
+          for (var i = 0; i < data.data.length; i++) {
+            data.data[i].count = 0
           }
+          this.foodData = data.data
         })
     },
+    // this.$http.get('/api/shopFoodList')
+    //   .then((data) => {
+    //     let arr = data.data.data
+    //     for (var i = 0; i < arr.length; i++) {
+    //       if (this.name === arr[i].shopname) {
+    //         this.foodData = data.data.data[i].foodlist
+    //         // console.log(this.foodData)
+    //         break
+    //       } else {
+    //         this.foodData = []
+    //       }
+    //     }
+    //   })
     countadd: function (data) {
       this.i++
-      this.count += data.price
+      this.cost += data.price
       // console.log(data.count)
       var index
       for (index = 0; index < this.cartlist.length; index++) {
-        if (data.name === this.cartlist[index].name) {
+        if (data.foodname === this.cartlist[index].foodname) {
           this.cartlist[index].count = data.count
           return
         }
       }
-      // console.log('index:', index)
-      // console.log(this.cartlist.length)
       if (index === this.cartlist.length) {
         this.cartlist.push({
-          name: data.name,
+          foodname: data.foodname,
           count: data.count})
       }
-      // console.log(this.cartlist)
+      console.log(this.cartlist)
     },
     countcut: function (data) {
       this.i--
-      this.count -= data.price
+      this.cost -= data.price
       var index
       for (index = 0; index < this.cartlist.length; index++) {
-        if (data.name === this.cartlist[index].name) {
+        if (data.foodname === this.cartlist[index].foodname) {
           if (data.count === 0) {
             this.cartlist.splice(index, 1)
           } else {
@@ -155,14 +166,8 @@ export default {
       return this.filterIndex(this.foodData)
     }
   },
-  created () {
-    console.log('creat')
-  },
   beforeRouteEnter (to, from, next) {
     next(vm => vm.setData())
-  },
-  mounted: function () {
-
   }
 }
 </script>
@@ -287,7 +292,7 @@ export default {
 .bottom{
   position:fixed;
   height:50px;
-  width:100%;
+  width:70%;
   left:0;
   bottom:0;
   z-index: 11;
@@ -297,5 +302,13 @@ export default {
   position:absolute;
   right:10px;
   margin-top: 0px;
+}
+.spend{
+  position:fixed;
+  width: 30%;
+  height:50px;
+  bottom:0px;
+  right:0px;
+  background:rgb(69, 187, 75)
 }
 </style>

@@ -9,8 +9,12 @@
                 <img src="../../assets/me/设置.png" height="20px">
             </router-link>
             <router-link tag="div" class="head" to="/personal">
-                <img src="../../assets/tab/饿了么1.png" height="60px">
-                <p class="personal">name:{{this.$store.state.name}}</p><p class="personal">phone:180****</p>
+                <img :src="this.$store.state.photo" height="60px" width="60px">
+                <div v-if="this.$store.state.token">
+                    <p class="personal">name:{{this.$store.state.name}}</p>
+                    <p class="personal">phone:180****</p>
+                </div>
+                <p class="unlogin" v-else>请登录</p>
             </router-link>
         </div>
         <div class="p2">
@@ -76,6 +80,7 @@
 </template>
 
 <script>
+// import axios from 'axios'
 export default {
   data () {
     return {
@@ -116,12 +121,19 @@ export default {
 }
 .head img{
     position: absolute;
-    margin-left: 20px
+    margin-left: 20px;
+    top:50px;
 }
 .personal{
     color: #fff;
     margin-left: 120px;
     margin-top:20px
+}
+.unlogin{
+    color: #fff;
+    margin-left: 120px;
+    margin-top:30px;
+    font-size:150%
 }
 .msg img{
     position: absolute;

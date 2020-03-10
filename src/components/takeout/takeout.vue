@@ -28,13 +28,21 @@
       </div>
       <div>
         <p class="recommend">推荐商家</p>
-        <img class="shopphoto" src="../../../static/shop/海岸百货超市.png">
+        <!-- <img class="shopphoto" src="../../../static/shop/海岸百货超市.png">
         <img class="shopphoto" src="../../../static/shop/大润发.png">
         <img class="shopphoto" src="../../../static/shop/良品铺子.png">
         <img class="shopphoto" src="../../../static/shop/老戴水果.png">
         <img class="shopphoto" src="../../../static/shop/马刻便利店.png">
         <img class="shopphoto" src="../../../static/shop/老塞咖啡.png">
-        <img class="shopphoto" src="../../../static/shop/佳得乐便利店.png">
+        <img class="shopphoto" src="../../../static/shop/佳得乐便利店.png"> -->
+        <div class="shopmsg" @click="gotoshop(shop)" v-for="shop in shopData" :key="shop.id">
+          <img class="shopphoto" :src="shop.imgurl">
+          <span class="shopname">{{shop.name}}</span>
+          <img class="stars" src="../../assets/shop/星星.png">
+          <span class="level">{{shop.stars}}</span>
+          <span class="cost">起送￥15 配送￥3</span>
+          <span class="discount"> 20减5 </span>
+        </div>
       </div>
     </div>
 </template>
@@ -56,10 +64,26 @@ export default {
   },
   data () {
     return {
-      data_list: demoList
+      data_list: demoList,
+      shopData: [
+        {'name': '肯 德 基 宅 急 送', 'imgurl': '../../static/shop/肯德基.png', 'stars': '5.0'},
+        {'name': '海 岸 百 货', 'imgurl': '../../static/shop/海岸百货.png', 'stars': '4.9'},
+        {'name': '大 润 发', 'imgurl': '../../static/shop/大润发.png', 'stars': '4.8'},
+        {'name': '良 品 铺 子', 'imgurl': '../../static/shop/良品铺子.png', 'stars': '4.7'},
+        {'name': '老 戴 水 果', 'imgurl': '../../static/shop/老戴水果.png', 'stars': '4.6'},
+        {'name': '马 刻 便 利 店', 'imgurl': '../../static/shop/马刻便利店.png', 'stars': '4.5'},
+        {'name': '老 塞 咖 啡', 'imgurl': '../../static/shop/老塞咖啡.png', 'stars': '4.4'},
+        {'name': '佳 得 乐 便 利 店', 'imgurl': '../../static/shop/佳得乐便利店.png', 'stars': '4.3'}
+      ]
+    }
+  },
+  methods: {
+    gotoshop: function (shop) {
+      this.$router.push({
+        path: '/shop', query: {shop: shop}
+      })
     }
   }
-
 }
 </script>
 
@@ -100,11 +124,48 @@ export default {
   font-size:110%;
   margin-bottom: 5px;
 }
+.shopmsg{
+  position: relative;
+  height:120px;
+  width:100%;
+}
 .shopphoto{
   position: relative;
-  top:0px;
-  left:0px;
-  width:100%;
-  height:120px;
+  margin-top:10px;
+  margin-left:10px;
+  height:100px;
+}
+.shopname{
+  position: absolute;
+  margin-top:10px;
+  margin-left:10px;
+}
+.stars{
+  position: absolute;
+  margin-top:40px;
+  margin-left:10px;
+  width: 15px;
+}
+.level{
+  position: absolute;
+  margin-top:39px;
+  margin-left:30px;
+  font-size: 90%;
+  color:orange
+}
+.cost{
+  position: absolute;
+  margin-top:60px;
+  margin-left:10px;
+  font-size: 85%;
+  color:gray
+}
+.discount{
+  position: absolute;
+  margin-top:85px;
+  margin-left:10px;
+  font-size: 85%;
+  color:orange;
+  border:orange 0.5px solid;
 }
 </style>

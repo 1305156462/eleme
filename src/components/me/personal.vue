@@ -7,9 +7,9 @@
             <p style="position:fixed;width:100%;text-align:center;margin-top:13px;font-size:120%;height:30px;">个人资料</p>
         </div>
         <div class="tip1">基础信息</div>
-        <div class="list">
+        <div class="list" @click="gotochangephoto">
             <span class="text1">头像</span>
-            <img src="../../assets/tab/饿了么1.png" style="height:50px;position:absolute;right:40px;margin-top:5px">
+            <img :src="this.$store.state.photo" style="height:50px;width:50px;position:absolute;right:40px;margin-top:5px">
             <img class="picture" src="../../assets/order/右.png">
         </div>
         <div class="list" @click="gotochangename">
@@ -70,10 +70,14 @@ export default {
       this.$router.push({
         path: '/changename'
       })
+    },
+    gotochangephoto () {
+      this.$router.push({
+        path: '/changephoto'
+      })
     }
   },
   beforeRouteEnter (to, from, next) {
-    console.log(to.path)
     if (store.state.token) {
       next()
     } else {

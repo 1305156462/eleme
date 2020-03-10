@@ -5,7 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    name: 'liu',
+    name: '',
+    code: '',
+    id: '',
+    photo: '/static/userphoto/饿了么.png',
     token: window.sessionStorage.getItem('token')
   },
   mutations: {

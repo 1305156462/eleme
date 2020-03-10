@@ -29,6 +29,7 @@
   "shopFoodList":[
     {
       "shopname":"肯 德 基 宅 急 送",
+      "shopphoto":"/static/shop/肯德基.png",
       "foodlist":[
       {
         "index": "优惠",
@@ -67,37 +68,38 @@
 
     {
       "shopname":"海 岸 百 货",
+      "shopphoto":"/static/shop/海岸百货.png",
       "foodlist":[
       {
-        "index": "A",
+        "index": "单品活动",
         "food": [
-          {"name": "精选欢聚时光桶T", "imgurl": "/static/food/优惠1.jpg", "price": 1.00, "count": 0},
-          {"name": "六味小吃桶T", "imgurl": "/static/food/优惠2.jpg", "price": 2.00, "count": 0},
-          {"name": "20块香辣鸡翅T", "imgurl": "/static/food/优惠3.jpg", "price": 3.00, "count": 0}
+          {"name": "馋香嘴", "imgurl": "/static/food/馋香嘴.png", "price": 1.00, "count": 0},
+          {"name": "怡宝纯净水", "imgurl": "/static/food/怡宝.png", "price": 2.00, "count": 0},
+          {"name": "润田纯净水", "imgurl": "/static/food/润田.png", "price": 1.00, "count": 0}
         ]
       },
       {
-        "index": "B",
+        "index": "江西特产",
         "food": [
-          {"name": "10块奥尔良烤翅T", "imgurl": "/static/food/鸡翅1.png", "price": 4.00, "count": 0},
-          {"name": "10块香辣鸡翅T", "imgurl": "/static/food/鸡翅2.png", "price": 5.00, "count": 0},
-          {"name": "2块新奥尔良烤翅T", "imgurl": "/static/food/鸡翅3.png", "price": 6.00, "count": 0}
+          {"name": "浔阳江 五眼果", "imgurl": "/static/food/五眼果.png", "price": 13.90, "count": 0},
+          {"name": "浔阳江 庐山云雾茶酥", "imgurl": "/static/food/茶酥.png", "price": 15.90, "count": 0},
+          {"name": "浔阳江 庐山石鱼酥", "imgurl": "/static/food/石鱼酥.png", "price": 15.90, "count": 0}
         ]
       },
       {
-        "index": "C",
+        "index": "每日鲜果",
         "food": [
-          {"name": "劲爆鸡米花（大）", "imgurl": "/static/food/劲爆鸡米花.png", "price": 7.00, "count": 0},
-          {"name": "薯条（中）", "imgurl": "/static/food/薯条.png", "price": 8.00, "count": 0},
-          {"name": "黄金鸡块5块装", "imgurl": "/static/food/黄金鸡块.png", "price": 9.00, "count": 0}
+          {"name": "黄心猕猴桃奇异果", "imgurl": "/static/food/猕猴桃.png", "price": 58.00, "count": 0},
+          {"name": "冰糖赣南脐橙", "imgurl": "/static/food/脐橙.png", "price": 68.00, "count": 0},
+          {"name": "新疆库尔勒香梨", "imgurl": "/static/food/香梨.png", "price": 108.00, "count": 0}
         ]
       },
       {
-        "index": "D",
+        "index": "居家百货",
         "food": [
-          {"name": "九珍果汁饮料", "imgurl": "/static/food/九珍果汁.png", "price": 10, "count": 0},
-          {"name": "百事可乐（中）", "imgurl": "/static/food/百事可乐.png", "price": 11, "count": 0},
-          {"name": "拿铁（中）", "imgurl": "/static/food/拿铁.png", "price": 12, "count": 0}
+          {"name": "公牛插座", "imgurl": "/static/food/插座.png", "price": 46.00, "count": 0},
+          {"name": "万利达 电热水壶", "imgurl": "/static/food/水壶.png", "price": 68.00, "count": 0},
+          {"name": "行李收纳袋", "imgurl": "/static/food/收纳袋.png", "price": 19.90, "count": 0}
         ]
       }
       ]

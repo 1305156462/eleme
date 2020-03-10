@@ -7,11 +7,11 @@
       <div class="loginContent" @keyup.enter="gotoeleme">
         <div class="Username">
           <span>账号</span>
-          <input type="text" ref="Username" >
+          <input type="text" ref="username" >
         </div>
         <div class="Password">
           <span>密码</span>
-          <input type="password" ref="Password">
+          <input type="password" ref="password">
         </div>
         <div class="loginBotton">
           <input type="button" value="登录" @click="gotoeleme">
@@ -20,18 +20,26 @@
     </div>
   </div>
 </template>
+
 <script>
+import axios from 'axios'
 export default {
   methods: {
     gotoeleme () {
-      console.log(this.$refs.Username.value)
-      console.log(this.Username)
-      if (this.$refs.Username.value === this.Username && this.$refs.Password.value === this.Password) {
-        console.log('登录成功')
-        this.$store.commit('SET_TOKEN', true)
-        this.$router.push({path: '/takeout'})
-      }
+      axios.get('/apis/login', {params: {username: this.$refs.username.value, password: this.$refs.password.value}})
+        .then((user) => {
+          console.log(user)
+          if (user.data.id) {
+            this.$store.state.name = this.$refs.username.value
+            this.$store.state.code = this.$refs.password.value
+            this.$store.state.id = user.data.id
+            this.$store.state.photo = user.data.photo
+            this.$store.commit('SET_TOKEN', true)
+            this.$router.push({path: '/takeout'})
+          }
+        })
     },
+
     back () {
       this.$router.back() // 返回上一级
     }
@@ -39,7 +47,7 @@ export default {
   data () {
     return {
       Username: this.$store.state.name,
-      Password: '123'
+      Password: this.$store.state.code
     }
   }
 }

@@ -13,14 +13,13 @@
 <script>
 export default {
   props: {
-    food: {
-      type: Object
-    }
+    food: {}
   },
   methods: {
     add (data) {
       this.food.count++
       this.$emit('addfood', data)
+      console.log(this.food.count)
     },
     cut (data) {
       this.food.count--

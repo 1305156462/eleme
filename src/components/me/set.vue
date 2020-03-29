@@ -49,11 +49,10 @@ export default {
     },
     out () {
       console.log('退出登录')
-      this.$store.commit('SET_TOKEN', false)
-      this.$store.state.name = ''
-      this.$store.state.code = ''
-      this.$store.state.id = ''
-      this.$store.state.photo = '/static/userphoto/饿了么.png'
+      this.$store.commit('SET_TOKEN', '')
+      this.$store.commit('SET_NAME', '')
+      this.$store.commit('SET_ID', '')
+      this.$store.commit('SET_PHOTO', '')
       this.$router.push({
         path: '/me'
       })

@@ -9,7 +9,7 @@
 
       <div class="top2" @click="carts=0"></div>
       <img @click="carts=0" style="position:fixed;z-index:10;width:30%;top:30px;left:35%" :src="shopphoto">
-      <span @click="carts=0" style="position:fixed;z-index:100;top:140px;width:100%;text-align:center;font-size:120%">{{name}}</span>
+      <span @click="carts=0" style="position:fixed;z-index:100;top:140px;width:100%;text-align:center;font-size:120%">{{shopname}}</span>
 
       <div class="options">
         <div tag="div" class="goods">
@@ -25,7 +25,7 @@
 
       <div class="food">
         <ul class="food_kind" ref="foodkind">
-          <li v-for="food in foodData" :key="food.id">
+          <li v-for="(food,index) in foodData" :key="index">
             <p v-show="food.classification">{{food.classification}}</p>
             <ul>
               <li>
@@ -33,7 +33,7 @@
                   <img class="foodphoto" :src="food.imgurl"/>
                   <span class="foodname">{{food.foodname}}</span>
                   <span class="foodprice">￥{{food.price}}</span>
-                  <carts :food='food' @addfood="countadd" @cutfood="countcut"></carts>
+                  <carts :foodmsg='food' @addfood="countadd" @cutfood="countcut"></carts>
                 </div>
               </li>
             </ul>
@@ -46,14 +46,14 @@
 
       <div class="bottom">
         <span @click="carts?carts=false:carts=true" style="display:flex;color:white;margin-top:10px;margin-left:10px;font-size:120%">已选择{{i}}件,共计{{cost}}元</span>
-        <div @click="gotospend()" class="spend"><span style="display:flex;color:white;margin-top:10px;margin-left:25%;font-size:120%">去结算</span></div>
+        <div @click="gotospend(shop,cost)" class="spend" :class="{active: cango}"><span :class="{active: cango}" style="display:flex;color:black;margin-top:10px;margin-left:25%;font-size:120%">去结算</span></div>
       </div>
 
       <div v-show="carts" class="shopcart">
       <div style="position:fixed;z-index:11;background:#edf88c;top:60%;width:100%;height:20px;"></div>
         <scroller>
           <div class="checked">已选商品</div>
-            <div class="checklist" v-for="(food,index) in cartlist" :key="index">
+            <div class="checklist" v-for="(food,index) in cartlist" :key="index" v-show="food.count">
               <span style="position:absolute;margin-top:15px;">{{food.foodname}}</span>
               <span style="position:absolute;margin-top:15px;right:10px;">{{food.count}}</span>
             </div>
@@ -69,22 +69,33 @@ import carts from '@/components/shopping/carts'
 export default {
   data () {
     return {
-      name: '',
+      shop: '',
+      shopname: '',
       cartlist: [],
       carts: false,
       i: 0,
       cost: 0.00,
       foodData: [],
-      shopphoto: ''
+      shopphoto: '',
+      cango: false
     }
   },
   components: {carts},
   methods: {
-    gotospend () {
-      axios.get('/apis/gotospend', {params: {}})
+    gotospend: function (shop, cost) {
+      if (this.cango === true) {
+        this.$store.commit('SET_CARTLIST', this.cartlist)
+        console.log(this.$store.state.cartlist)
+        this.$router.push({path: '/spend', query: {shop: shop, cost: cost}})
+      }
     },
     back () {
-      this.$router.back() // 返回上一级
+      this.cartlist.splice(0, this.cartlist.length)
+      this.$store.commit('SET_CARTLIST', this.cartlist)
+      this.i = 0
+      this.cost = 0
+      this.cango = false
+      this.$router.push({path: '/shopping'})
     },
     filterIndex: function (data) {
       var result = []
@@ -104,35 +115,41 @@ export default {
       }
     },
     setData () {
-      this.name = this.$route.query.shop.shopname
+      // this.cartlist = this.$store.state.cartlist
+      this.shopname = this.$route.query.shop.shopname
       this.shopphoto = this.$route.query.shop.shopphoto
-      axios.get('/apis/getfoodlist', {params: {shopname: this.name}})
+      this.shop = this.$route.query.shop
+
+      // for (var index = 0; index < this.cartlist.length; index++) {
+      //   if (this.cartlist[index].count !== 0) {} else { this.i = 0; this.cost = 0 }
+      // }
+      if (!this.cartlist) {
+        console.log('i', this.i)
+        console.log('cost', this.cost)
+        this.i = 0
+        this.cost = 0
+      }
+      axios.get('/apis/getfoodlist', {params: {shopname: this.shopname}})
         .then((data) => {
-          // console.log(data.data)
           for (var i = 0; i < data.data.length; i++) {
             data.data[i].count = 0
           }
           this.foodData = data.data
+          console.log('原foodDate', this.foodData)
+          console.log('cartlist:', this.cartlist)
+          for (i = 0; i < this.cartlist.length; i++) {
+            for (var j = 0; j < this.foodData.length; j++) {
+              if (this.cartlist[i].foodname === this.foodData[j].foodname) { this.foodData[j].count = this.cartlist[i].count }
+            }
+          }
+          console.log('传count后的foodDate', this.foodData)
         })
     },
-    // this.$http.get('/api/shopFoodList')
-    //   .then((data) => {
-    //     let arr = data.data.data
-    //     for (var i = 0; i < arr.length; i++) {
-    //       if (this.name === arr[i].shopname) {
-    //         this.foodData = data.data.data[i].foodlist
-    //         // console.log(this.foodData)
-    //         break
-    //       } else {
-    //         this.foodData = []
-    //       }
-    //     }
-    //   })
     countadd: function (data) {
       this.i++
       this.cost += data.price
-      // console.log(data.count)
       var index
+      this.cango = true
       for (index = 0; index < this.cartlist.length; index++) {
         if (data.foodname === this.cartlist[index].foodname) {
           this.cartlist[index].count = data.count
@@ -142,14 +159,18 @@ export default {
       if (index === this.cartlist.length) {
         this.cartlist.push({
           foodname: data.foodname,
-          count: data.count})
+          count: data.count,
+          price: data.price,
+          imgurl: data.imgurl})
       }
-      console.log(this.cartlist)
     },
     countcut: function (data) {
       this.i--
       this.cost -= data.price
       var index
+      if (this.i === 0) {
+        this.cango = false
+      }
       for (index = 0; index < this.cartlist.length; index++) {
         if (data.foodname === this.cartlist[index].foodname) {
           if (data.count === 0) {
@@ -309,6 +330,9 @@ export default {
   height:50px;
   bottom:0px;
   right:0px;
-  background:rgb(69, 187, 75)
+  background: #ebebeb;
+}
+.active{
+  background:rgb(69, 187, 75);
 }
 </style>

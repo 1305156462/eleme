@@ -64,6 +64,9 @@ export default {
   },
   data () {
     return {
+      onSubmit: '',
+      onFocus: '',
+      onCancel: '',
       data_list: demoList,
       shopData: [
         {'name': '肯 德 基 宅 急 送', 'imgurl': '../../static/shop/肯德基.png', 'stars': '5.0'},

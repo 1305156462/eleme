@@ -26,16 +26,19 @@ import axios from 'axios'
 export default {
   methods: {
     gotoeleme () {
-      axios.get('/apis/login', {params: {username: this.$refs.username.value, password: this.$refs.password.value}})
+      axios.post('/apis/login', {'username': this.$refs.username.value, 'password': this.$refs.password.value})
         .then((user) => {
           console.log(user)
           if (user.data.id) {
-            this.$store.state.name = this.$refs.username.value
-            this.$store.state.code = this.$refs.password.value
-            this.$store.state.id = user.data.id
-            this.$store.state.photo = user.data.photo
+            //  this.$store.state.name = this.$refs.username.value
+            // this.$store.state.code = this.$refs.password.value
+            // this.$store.state.id = user.data.id
+            // this.$store.state.photo = user.data.photo
             this.$store.commit('SET_TOKEN', true)
-            this.$router.push({path: '/takeout'})
+            this.$store.commit('SET_NAME', user.data.username)
+            this.$store.commit('SET_ID', user.data.id)
+            this.$store.commit('SET_PHOTO', user.data.photo)
+            this.$router.push({path: '/me'})
           }
         })
     },
@@ -46,8 +49,6 @@ export default {
   },
   data () {
     return {
-      Username: this.$store.state.name,
-      Password: this.$store.state.code
     }
   }
 }

@@ -11,6 +11,7 @@ import personal from '@/components/me/personal'
 import changename from '@/components/me/changename'
 import carts from '@/components/shopping/carts'
 import changephoto from '@/components/me/changephoto'
+import spend from '@/components/shopping/spend'
 
 Vue.use(Router)
 
@@ -63,6 +64,10 @@ export default new Router({
     {
       path: '/changephoto',
       component: changephoto
+    },
+    {
+      path: '/spend',
+      component: spend
     }
   ]
 })

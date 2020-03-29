@@ -35,7 +35,8 @@ export default {
         console.log('修改成功')
         axios.get('/apis/changename', {params: {username: this.text, id: this.$store.state.id}})
         console.log(this.$store.state.id)
-        this.$store.state.name = this.text
+        this.$store.commit('SET_NAME', this.text)
+        // this.$store.state.name = this.text
         this.text = ''
         this.$router.back()
       }

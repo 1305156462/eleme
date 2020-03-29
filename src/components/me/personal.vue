@@ -57,6 +57,7 @@
 
 <script>
 import store from '@/store/index.js'
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -79,6 +80,14 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     if (store.state.token) {
+      axios.post('/apis/update', {'id': store.state.id})
+        .then((user) => {
+          console.log(user.data)
+          if (user.data.id) {
+            store.commit('SET_NAME', user.data.username)
+            store.commit('SET_PHOTO', user.data.photo)
+          }
+        })
       next()
     } else {
       console.log('请先登录')

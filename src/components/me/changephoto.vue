@@ -72,15 +72,17 @@ export default {
       this.canchange = false
     },
     save () {
-      if (this.imgArr) {
+      if (this.imgArr.length) {
+        console.log(this.imgArr)
         var formData = new FormData()
         formData.append('file', this.imgArr[0])
         formData.append('id', this.$store.state.id)
         formData.append('path', 'D:\\VUE\\eleme\\static\\userphoto\\')
         axios.post('/apis/changephoto', formData, {headers: {'Content-type': 'multipart/form-data'}})
           .then((data) => {
-            console.log(data)
-            this.$store.state.photo = data.data.photopath
+            console.log(data.data.photo)
+            this.$store.commit('SET_PHOTO', data.data.photo)
+            // this.$store.state.photo = data.data.photopath
           })
         console.log(this.$store.state.photo)
         this.$router.back()

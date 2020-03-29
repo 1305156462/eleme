@@ -9,7 +9,8 @@
                 <img src="../../assets/me/设置.png" height="20px">
             </router-link>
             <router-link tag="div" class="head" to="/personal">
-                <img :src="this.$store.state.photo" height="60px" width="60px">
+                <img v-if="this.$store.state.token" :src="this.$store.state.photo" height="60px" width="60px">
+                <img v-else src="../../../static/userphoto/饿了么.png" height="60px" width="60px">
                 <div v-if="this.$store.state.token">
                     <p class="personal">name:{{this.$store.state.name}}</p>
                     <p class="personal">phone:180****</p>
@@ -80,7 +81,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import store from '@/store/index.js'
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -88,6 +90,19 @@ export default {
       number1: '0',
       number2: '0'
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    if (store.state.token) {
+      axios.post('/apis/update', {'id': store.state.id})
+        .then((user) => {
+          console.log(user.data)
+          if (user.data.id) {
+            store.commit('SET_NAME', user.data.username)
+            store.commit('SET_PHOTO', user.data.photo)
+          }
+        })
+    }
+    next()
   }
 }
 </script>
